@@ -1,0 +1,38 @@
+Phần đầu:
+Lý thuyết Bayes, Dynamic Bayes
+
+Phần 2: Bài toán và mô hình đề xuất
+
+Phần 3: Mô tả chương trình
+
+*** Mô tả code:
+Thực hiện chỉnh sửa một chút trong thư viện pgmpy để chương trình chạy hiệu quả hơn. Như trả lại giá trị của các biến (gán self.state_names trong file pgmpy/models/BayesianModel.py) để có thể vẽ đồ thị (giá trị trục hoành). 
+
+
+Dữ liệu được sinh từ file data_generating.py. Trong đó, các giá trị DPQ, C, OU, TQ giữ nguyên qua thời gian. 
+Mô tả file data_generating : ...
+
+File gui.py để thực thi chương trình. 
+Mô tả file gui.py: 
+Tạo ra giao diện cho phép người dùng chọn các giá trị DPQ, C, OU, TQ.
+Tạo mạng bayes với số nút x3 như hình vẽ. 
+
+Lấy vào dữ liệu và tìm xác suất có điều kiện ở mỗi nút
+self.model.fit(self.data, estimator_type=BayesianEstimator, prior_type="BDeu",
+                      equivalent_sample_size=10)
+
+Với các giá trị DPQ, C, TQ, OU nhập vào, ta tính phân phối xác suất của mỗi nút khác trong mạng. Phân phối của các nút lưu dưới dạng mảng, chứa trong biến Distribution
+
+Sau khi tính hết phân phối, ta vẽ đồ thị (vì vấn đề kích thước ta không thể vẽ tất cả phân phối của các nút trên một fiqure) nên ta hiển thị kết quả trên 3 fiqure:
+Figure 1: đồ thị cho phân phối các nút ở  time 1 và time 2
+Figure 2: đồ thị cho phân phối các nút ở time 2 và time 3
+Figure 3: đồ thị cho phân phối các nút ở time 1 và time 3
+
+
+******* Mô tả kết quả thu được
+Xem trong thư mục images 
+
+Tên thư mục dpq-c-tq-ou 4-0-4-0 có nghĩa là dpq: 4, c: 0, tq: 4, ou:0
+Ví dụ nhận xét:
+Với dpq dpq: 4, c: 0, tq: 4, ou:0 tức là chất lượng thiết kết rất tốt, độ phức tạp phần mềm rất nhỏ, chất lượng kiểm thử rất tốt và các thao tác sử dụng rất ít. Số lỗi phát sinh là rất thấp ( xem đồ thị phân phối DI), nhận xét số lỗi tìm thấy và sửa ... (phụ thuộc tq), và nhận xét số lỗi tìm thấy khi vận hành .... (phụ thuộc ou)..
+

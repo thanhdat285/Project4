@@ -573,7 +573,9 @@ class DiscreteFactor(BaseFactor):
                 [[10, 30],
                  [55, 77]]]]
         """
+        # print 'p1: ', phi1
         phi = self if inplace else self.copy()
+        # print 'p: ', phi
         if isinstance(phi1, (int, float)):
             phi.values *= phi1
         else:
