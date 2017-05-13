@@ -10,7 +10,7 @@ Thực hiện chỉnh sửa một chút trong thư viện pgmpy để chương t
 
 
 Dữ liệu được sinh từ file data_generating.py. Trong đó, các giá trị DPQ, C, OU, TQ giữ nguyên qua thời gian. 
-Mô tả file data_generating : ...
+Mô tả file data_generating : Dữ liệu DPQ, C, TQ, OU sinh theo phân phối đều trên [0, 4]. Dữ liệu DI được được sinh thỏa mãn điều kiện DPQ và C (vd khi DPQ lớn, C nhỏ thì DI nhỏ; DPQ nhỏ, C lớn thì DI lớn). Dữ liệu DFT sinh sao cho <= DI và phụ thuộc TQ (TQ lớn => DFT lớn, TQ nhỏ => DFT nhỏ). Dữ liệu RD được sinh bằng DI - DFT. Dữ liệu DFO sinh <= RD và phụ thuộc OU (OU lớn => DFO lớn, OU nhỏ => DFO nhỏ).  Ở time 2, các giá trị DPQ, C, OU, TQ giống time 1 (vì nếu khác query rất lâu chưa khắc phục được). RD time 2 = DI time 1. 
 
 File gui.py để thực thi chương trình. 
 Mô tả file gui.py: 
