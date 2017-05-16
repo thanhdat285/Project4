@@ -32,7 +32,7 @@ def found_probability_generate(n_data = [], p_data = []):
         elif p_data[i] == 1:
             mu = 0.3
         elif p_data[i] == 2:
-            mu = 0.4
+            mu = 0.5
         elif p_data[i] == 3:
             mu = 0.7
         elif p_data[i] == 4:
