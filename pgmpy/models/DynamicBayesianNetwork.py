@@ -80,6 +80,7 @@ class DynamicBayesianNetwork(DirectedGraph):
             self.add_edges_from(ebunch)
         self.cpds = []
         self.cardinalities = defaultdict(int)
+        self.state_names= {}
 
     def add_node(self, node, **attr):
         """
@@ -292,6 +293,8 @@ class DynamicBayesianNetwork(DirectedGraph):
         if not isinstance(time_slice, int) or time_slice < 0:
             raise ValueError("The timeslice should be a positive value greater than or equal to zero")
 
+        # Change by Thanh Dat
+        # return [(edge[0][0], time_slice-1) for edge in self.get_inter_edges()]
         return [(edge[0][0], time_slice) for edge in self.get_inter_edges()]
 
     def get_slice_nodes(self, time_slice=0):
@@ -407,6 +410,8 @@ class DynamicBayesianNetwork(DirectedGraph):
                     if cpd.variable == node:
                         return cpd
         else:
+            # Change by Thanh Dat
+            # return [cpd for cpd in self.cpds if cpd.variable in self.get_slice_nodes(time_slice)]
             return [cpd for cpd in self.cpds if set(list(cpd.variables)).issubset(self.get_slice_nodes(time_slice))]
 
     def remove_cpds(self, *cpds):
@@ -505,20 +510,26 @@ class DynamicBayesianNetwork(DirectedGraph):
         """
         for cpd in self.cpds:
             temp_var = (cpd.variable[0], 1 - cpd.variable[1])
-            parents = self.get_parents(temp_var)
+            # parents = self.get_parents(temp_var)
+            parents = cpd.variables[1:]
+            for i in range(len(parents)):
+                parents[i] = (parents[i][0], 1 - cpd.variable[1])
             if not any(x.variable == temp_var for x in self.cpds):
                 if all(x[1] == parents[0][1] for x in parents):
                     if parents:
-                        evidence_card = cpd.cardinality[:0:-1]
+                        # evidence_card = cpd.cardinality[:0:-1]
+                        evidence_card = cpd.cardinality[1:]
                         new_cpd = TabularCPD(temp_var, cpd.variable_card,
                                              cpd.values.reshape(cpd.variable_card, np.prod(evidence_card)),
                                              parents, evidence_card)
                     else:
                         if cpd.get_evidence():
                             initial_cpd = cpd.marginalize(cpd.get_evidence(), inplace=False)
-                            new_cpd = TabularCPD(temp_var, cpd.variable_card, np.reshape(initial_cpd.values, (-1, 2)))
+                            # new_cpd = TabularCPD(temp_var, cpd.variable_card, np.reshape(initial_cpd.values, (-1, 2)))
+                            new_cpd = TabularCPD(temp_var, cpd.variable_card, np.reshape(initial_cpd.values, (1, -1)))
                         else:
-                            new_cpd = TabularCPD(temp_var, cpd.variable_card, np.reshape(cpd.values, (-1, 2)))
+                            # new_cpd = TabularCPD(temp_var, cpd.variable_card, np.reshape(cpd.values, (-1, 2)))
+                            new_cpd = TabularCPD(temp_var, cpd.variable_card, np.reshape(cpd.values, (1, -1)))
                     self.add_cpds(new_cpd)
             self.check_model()
 

@@ -90,6 +90,7 @@ class BayesianModel(DirectedGraph):
             self.add_edges_from(ebunch)
         self.cpds = []
         self.cardinalities = defaultdict(int)
+        self.state_names = {}
 
     def add_edge(self, u, v, **kwargs):
         """
@@ -160,7 +161,8 @@ class BayesianModel(DirectedGraph):
 
             for prev_cpd_index in range(len(self.cpds)):
                 if self.cpds[prev_cpd_index].variable == cpd.variable:
-                    logging.warning("Replacing existing CPD for {var}".format(var=cpd.variable))
+                    # Commment by Thanh Dat
+                    # logging.warning("Replacing existing CPD for {var}".format(var=cpd.variable))
                     self.cpds[prev_cpd_index] = cpd
                     break
             else:
