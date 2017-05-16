@@ -219,6 +219,7 @@ class MarkovModel(UndirectedGraph):
         check: boolean
             True if all the checks are passed
         """
+
         cardinalities = self.get_cardinality()
         for factor in self.factors:
             for variable, cardinality in zip(factor.scope(), factor.cardinality):
@@ -415,6 +416,13 @@ class MarkovModel(UndirectedGraph):
                     node_to_delete = min(S_by_M, key=S_by_M.get)
 
                 else:
+                    # Written by Thanh Dat
+                    # S_by_C = {}
+                    # for key in S:
+                    #     if C[key] != 0:
+                    #         S_by_C[key] = S[key] / C[key]
+                    #     else:
+                    #         S_by_C[key] = 0
                     S_by_C = {key: S[key] / C[key] for key in S}
                     node_to_delete = min(S_by_C, key=S_by_C.get)
 
@@ -516,7 +524,9 @@ class MarkovModel(UndirectedGraph):
             clique_potential = DiscreteFactor(node, var_card, np.ones(np.product(var_card)))
             # multiply it with the factors associated with the variables present
             # in the clique (or node)
-            clique_potential *= factor_product(*clique_factors)
+            # Thanh Dat
+            if len(clique_factors) > 0:
+                clique_potential *= factor_product(*clique_factors)
             clique_trees.add_factors(clique_potential)
 
         if not all(is_used.values()):

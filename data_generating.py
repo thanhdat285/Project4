@@ -36,7 +36,7 @@ def found_probability_generate(n_data = [], p_data = []):
         elif p_data[i] == 3:
             mu = 0.7
         elif p_data[i] == 4:
-            mu = 0.95
+            mu = 0.9
 
         p = np.random.normal(mu, sigma)
         if p < 0:
@@ -63,7 +63,7 @@ def randomly_int(data = []):
     random_list = [np.random.randint(low = 0, high = i + 1) for i in data]
     return np.array(random_list)
 
-data_size = 5000
+data_size = 10000
 
 data = pd.DataFrame(np.random.randint(low = 0, high = 5, size = (data_size, 4)),
                                     columns = ['TQ','DPQ', 'C', 'OU'])
@@ -92,4 +92,4 @@ data['DFT3'] = found_probability_generate(data['DI3'], data['TQ3'])
 data['RD3'] = [a - b for a, b in zip(data['DI3'], data['DFT3'])]
 data['DFO3'] = found_probability_generate(data['RD3'], data['OU3'])
 
-data.to_csv("fisrm.csv", index = False)
+data.to_csv("fisrm10000.csv", index = False)
